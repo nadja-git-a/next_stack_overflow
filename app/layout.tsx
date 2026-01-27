@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import "./styles/globals.css";
+import "./styles/themes.css";
 
 export const metadata: Metadata = {
   title: "Lad stack overflow",
@@ -12,9 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

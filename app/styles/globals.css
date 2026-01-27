@@ -1,0 +1,10 @@
+@config "../../tailwind.config.ts";
+@import "tailwindcss";
+@import "./themes.css";
+
+@layer base {
+  body {
+    background-color: rgb(var(--bg));
+    color: rgb(var(--fg));
+  }
+}
