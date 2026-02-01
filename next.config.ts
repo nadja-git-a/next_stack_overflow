@@ -1,10 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-
   reactStrictMode: true,
   cacheComponents: true,
-  
+
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "images.unsplash.com" },
@@ -16,11 +15,10 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/api/:path*",
-        destination: "https://codelang.vercel.app/:path*",
+        destination: "https://codelang.vercel.app/api/:path*",
       },
     ];
   },
-
 };
 
 export default nextConfig;
