@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { Envelope, Snippet } from "../../../types/types";
 import { SnippetList } from "../../../ui/snippetList/SnippetList";
 import { Loader } from "../../../ui/loader/Loader";
-import { URL } from "../../../variables/variables";
+import { limit, URL } from "../../../variables/variables";
 
 export default async function Page({
   searchParams,
@@ -11,7 +11,6 @@ export default async function Page({
 }) {
   const sp = await searchParams;
   const page = Math.max(1, Number(sp.page ?? 1));
-  const limit = 5;
 
   const res = await fetch(`${URL}/api/snippets?page=${page}&limit=${limit}`);
   const data: Envelope<Envelope<Snippet[]>> = await res

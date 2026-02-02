@@ -1,5 +1,5 @@
 export const URL = "https://codelang.vercel.app";
-
+export const limit = 5;
 export const getApiBase = () => (typeof window === "undefined" ? URL : "");
 
 export const PASSWORD_REGEX =
