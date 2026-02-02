@@ -2,6 +2,7 @@
 
 import { useAuthStore } from "@/src/shared/store/authStore";
 import Link from "next/link";
+import { Button } from "../button/Button";
 
 export function LogInOutButton() {
   const isAuth = useAuthStore((store) => store.isAuth);
@@ -17,25 +18,9 @@ export function LogInOutButton() {
         <div className="flex items-center gap-3">
           <span className="text-sm text-muted">{username}</span>
 
-          <button
-            onClick={onLogout}
-            className="
-            rounded-md
-            px-3
-            py-1
-            text-sm
-            font-medium
-            bg-primary
-            text-white
-            transition
-            hover:bg-primary-600
-            focus:outline-none
-            focus:ring-2
-            focus:ring-primary
-          "
-          >
+          <Button onClick={onLogout} className=" px-3 py-1">
             Log out
-          </button>
+          </Button>
         </div>
       ) : (
         <Link

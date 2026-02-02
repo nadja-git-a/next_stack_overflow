@@ -2,6 +2,7 @@
 
 import { comment, type CommentState } from "@/src/actions/commentAction";
 import { useActionState } from "react";
+import { Button } from "../button/Button";
 
 const initialState: CommentState = { ok: false };
 
@@ -23,18 +24,9 @@ export function CommentForm({ id }: { id: string }) {
       "
       />
 
-      <button
-        type="submit"
-        disabled={isPending}
-        className="
-        self-end rounded-md px-4 py-2 text-sm font-medium
-        bg-primary text-bg
-        disabled:opacity-50 disabled:cursor-not-allowed
-        hover:bg-primary-600 transition-colors
-      "
-      >
+      <Button isPending={isPending} className="px-4 py-2">
         {isPending ? "Sending..." : "Send"}
-      </button>
+      </Button>
 
       {state.formError ? (
         <p className="mt-1 text-sm text-muted">{state.formError}</p>
