@@ -6,7 +6,6 @@ export function AuthRefresh() {
   const hydrate = useAuthStore((store) => store.hydrate);
 
   useEffect(() => {
-    console.log("hydrate");
     hydrate();
   }, [hydrate]);
 

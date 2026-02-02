@@ -31,7 +31,6 @@ export const useAuthStore = create<AuthState>((set) => ({
       cache: "no-store",
     });
 
-    console.log(res);
     set({ isAuth: false, user: null });
   },
 }));
