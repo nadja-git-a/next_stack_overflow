@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Drawer } from "../drawer/Drawer";
 
 export function Menu() {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
 
   return (
     <div className="flex items-center px-4 py-2 border-b border-border bg-bg">

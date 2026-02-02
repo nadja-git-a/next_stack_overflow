@@ -4,7 +4,7 @@ import { CommentIcon } from "@/public/icons/CommentIcon";
 import { ThumbDownIcon } from "@/public/icons/ThumbDownIcon";
 import { ThumbUpIcon } from "@/public/icons/ThumbUpIcon";
 import { useAuthStore } from "@/src/shared/store/authStore";
-import { Mark } from "@/src/types/types";
+import { Mark, MarkType } from "@/src/types/types";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import ModalMarkAlert from "../modals/ModalMarkAlert";
@@ -15,7 +15,7 @@ export interface MarkButtons {
 }
 
 export function MarkButtons({ marks, id }: MarkButtons) {
-  const [openModal, setOpenModal] = useState(false);
+  const [openModal, setOpenModal] = useState<boolean>(false);
 
   const isAuth = useAuthStore((store) => store.isAuth);
   const usernameSaved = useAuthStore((store) => store.user?.username);
@@ -25,7 +25,7 @@ export function MarkButtons({ marks, id }: MarkButtons) {
     return marks.find((m) => m.user.username === usernameSaved)?.type ?? "none";
   }, [marks, usernameSaved]);
 
-  const [marked, setMarked] = useState(initialMark);
+  const [marked, setMarked] = useState<MarkType>(initialMark);
 
   useEffect(() => {
     setMarked(initialMark);
@@ -36,14 +36,15 @@ export function MarkButtons({ marks, id }: MarkButtons) {
     [marks],
   );
 
-  const [newLikesCount, setNewLikesCount] = useState(likesCount);
+  const [newLikesCount, setNewLikesCount] = useState<number>(likesCount);
 
   const dislikesCount = useMemo(
     () => marks.filter((m) => m.type === "dislike").length,
     [marks],
   );
 
-  const [newDislikesCount, setNewDislikesCount] = useState(dislikesCount);
+  const [newDislikesCount, setNewDislikesCount] =
+    useState<number>(dislikesCount);
 
   useEffect(() => {
     setNewLikesCount(marks.filter((m) => m.type === "like").length);

@@ -16,8 +16,8 @@ export function LoginForm({
   const login = useAuthStore((store) => store.login);
   const router = useRouter();
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
   useEffect(() => {
     if (!state?.ok || !state.user) return;
