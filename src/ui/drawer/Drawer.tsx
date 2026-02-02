@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { NavLink } from "../links/NavLink";
 
 type DrawerProps = {
   open: boolean;
@@ -27,57 +27,21 @@ export function Drawer({ open, onClose }: DrawerProps) {
         ].join(" ")}
       >
         <nav className="flex flex-col gap-2 p-4">
-          <Link
-            href="/home"
-            onClick={onClose}
-            className="
-          rounded px-2 py-2
-          text-fg
-          transition
-          hover:bg-primary-50
-        "
-          >
+          <NavLink href="/home" onClick={onClose}>
             Home
-          </Link>
+          </NavLink>
 
-          <Link
-            href="/myAccount"
-            onClick={onClose}
-            className="
-          rounded px-2 py-2
-          text-fg
-          transition
-          hover:bg-primary-50
-        "
-          >
+          <NavLink href="/myAccount" onClick={onClose}>
             My Account
-          </Link>
+          </NavLink>
 
-          <Link
-            href="/mySnippets"
-            onClick={onClose}
-            className="
-          rounded px-2 py-2
-          text-fg
-          transition
-          hover:bg-primary-50
-        "
-          >
+          <NavLink href="/mySnippets" onClick={onClose}>
             My Snippets
-          </Link>
+          </NavLink>
 
-          <Link
-            href="/create"
-            onClick={onClose}
-            className="
-          rounded px-2 py-2
-          text-fg
-          transition
-          hover:bg-primary-50
-        "
-          >
-            Create snippet
-          </Link>
+          <NavLink href="/create" onClick={onClose}>
+            Create Snippet
+          </NavLink>
         </nav>
       </aside>
     </>
