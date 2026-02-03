@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+import "../styles/globals.css";
+import "../styles/themes.css";
+import { AuthRefresh } from "../ui/authRefresh/authRefresh";
 
 export const metadata: Metadata = {
   title: "Lad stack overflow",
@@ -13,6 +16,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <AuthRefresh />
         {children}
       </body>
     </html>
