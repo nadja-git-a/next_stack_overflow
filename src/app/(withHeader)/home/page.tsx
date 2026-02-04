@@ -17,6 +17,7 @@ export default async function Page({
     .json()
     .catch(() => null);
   const snippets = data.data.data;
+  const safeSnippets = JSON.parse(JSON.stringify(snippets));
 
   const totalPages = data.data.meta?.totalPages;
   let isLastPage: boolean;
@@ -27,7 +28,7 @@ export default async function Page({
     <div>
       <main>
         <Suspense fallback={<Loader />}>
-          <SnippetList snippets={snippets} isLastPage={isLastPage} />
+          <SnippetList snippets={safeSnippets} isLastPage={isLastPage} />
         </Suspense>
       </main>
     </div>

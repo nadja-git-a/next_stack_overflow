@@ -1,50 +1,80 @@
 "use client";
 
-import { deleteSnippet } from "@/src/actions/snippetActions";
 import { useAuthStore } from "@/src/shared/store/authStore";
-import { UiUser } from "@/src/types/types";
+import { apiFetch } from "@/src/utilities/fetch/apiFetch";
 import { useRouter } from "next/navigation";
-// import { useState } from "react";
+import { useState } from "react";
+import { EditModal } from "../modals/EditModal";
 
-export function EditDeleteButtons({ user, id }: { user?: UiUser; id: number }) {
-  // const [editOpen, setEditOpen] = useState(false);
+export function EditDeleteButtons({
+  userId,
+  id,
+  code,
+  language,
+  languages,
+}: {
+  userId: number;
+  id: number;
+  code: string;
+  language: string;
+  languages: string[];
+}) {
+  const [editOpen, setEditOpen] = useState(false);
   const router = useRouter();
   const userSavedId = useAuthStore((store) => store.user?.id);
 
-  if (user?.id !== userSavedId) return <div></div>;
+  if (userId !== userSavedId) return <div></div>;
 
-  const handleDelete = (id: number) => {
-    deleteSnippet(id);
+  const handleDelete = async (id: number) => {
+    try {
+      const res = await apiFetch(`api/snippets/${id}`, { method: "DELETE" });
+      console.log("delete status", res.status);
+    } catch (e) {
+      console.log("delete failed", e);
+    }
     router.refresh();
   };
 
   return (
-    <div className="flex gap-2">
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          // setEditOpen(true);
-        }}
-        className="
+    <>
+      <div className="flex gap-2">
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            setEditOpen(true);
+          }}
+          className="
           rounded-md border border-border px-2 py-1 text-xs
           text-primary transition hover:bg-primary-50
         "
-      >
-        Edit
-      </button>
+        >
+          Edit
+        </button>
 
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          handleDelete(id);
-        }}
-        className="
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            handleDelete(id);
+          }}
+          className="
           rounded-md border border-border px-2 py-1 text-xs
           text-red-600 transition hover:bg-red-50
         "
-      >
-        Delete
-      </button>
-    </div>
+        >
+          Delete
+        </button>
+      </div>
+
+      <EditModal
+        initialLanguage={language}
+        initialCode={code}
+        snippetId={String(id)}
+        languages={languages}
+        open={editOpen}
+        onClose={() => {
+          setEditOpen(false);
+        }}
+      />
+    </>
   );
 }

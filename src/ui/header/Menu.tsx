@@ -4,6 +4,8 @@ import { useState } from "react";
 import { Drawer } from "../drawer/Drawer";
 import { Button } from "../button/Button";
 
+import MenuIcon from "@/public/icons/menu.svg";
+
 export function Menu() {
   const [open, setOpen] = useState<boolean>(false);
 
@@ -14,20 +16,7 @@ export function Menu() {
         className="px-1 py-1"
         onClick={() => setOpen((prev) => !prev)}
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="size-6"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-          />
-        </svg>
+        <MenuIcon className="size-6" />
       </Button>
 
       <Drawer open={open} onClose={() => setOpen(false)} />
