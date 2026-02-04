@@ -1,9 +1,11 @@
 "use client";
 
-import { editSnippet, EditState } from "@/src/actions/editAction";
-import { useActionState, useEffect, useState } from "react";
 import { Button } from "../button/Button";
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { editModalSchema, type EditModal } from "./modalSchema/editModalSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { clientFetch } from "@/src/utilities/fetch/clientFetch";
 
 export function EditModal({
   initialLanguage,
@@ -20,31 +22,43 @@ export function EditModal({
   open: boolean;
   onClose: () => void;
 }) {
-  const [language, setLanguage] = useState<string>(initialLanguage);
-  const [code, setCode] = useState<string>(initialCode);
   const router = useRouter();
 
-  const initialState: EditState = {};
-  const [state, formAction, isPending] = useActionState(
-    editSnippet,
-    initialState,
-  );
+  const form = useForm<EditModal>({
+    resolver: zodResolver(editModalSchema),
+    defaultValues: {
+      code: initialCode,
+      language: initialLanguage,
+    },
+  });
 
-  useEffect(() => {
-    if (state.ok && open === true) {
-      onClose();
-      router.refresh();
-    }
-  }, [state.ok, onClose, router, open]);
+  const { register, handleSubmit, formState } = form;
 
   if (!open) {
     return;
   }
 
+  const onSubmit = async (data: EditModal) => {
+    const res = await clientFetch(`/api/snippets/${snippetId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        code: data.code,
+        language: data.language,
+      }),
+    });
+
+    console.log("fetch res", res.body);
+    onClose();
+    router.refresh();
+  };
+
   return (
     <div className="fixed inset-0 z-40 bg-black/40 px-5 py-5" onClick={onClose}>
       <form
-        action={formAction}
+        onSubmit={handleSubmit(onSubmit)}
         onClick={(e) => e.stopPropagation()}
         className="
       mx-auto max-w-lg
@@ -53,7 +67,9 @@ export function EditModal({
       border border-border
     "
       >
-        <input name="id" value={snippetId} type="hidden"></input>
+        <div className="mb-1 font-sans text-sm font-medium text-muted">
+          Language
+        </div>
         <div className="flex flex-col gap-6 text-fg">
           <select
             className="
@@ -65,9 +81,7 @@ export function EditModal({
       focus:outline-none
       focus:ring-2 focus:ring-primary/50
     "
-            name="language"
-            value={language}
-            onChange={(e) => setLanguage(e.target.value)}
+            {...register("language")}
           >
             {languages.map((lang) => {
               return (
@@ -84,9 +98,7 @@ export function EditModal({
             </p>
 
             <textarea
-              name="code"
-              value={code}
-              onChange={(e) => setCode(e.target.value)}
+              {...register("code")}
               placeholder="// paste or type your code here"
               rows={8}
               autoComplete="off"
@@ -102,19 +114,23 @@ export function EditModal({
       focus:ring-2 focus:ring-primary/50
     "
             />
+
+            {formState.errors.code && (
+              <p className="mt-1 text-sm text-red-500">
+                {formState.errors.code.message}
+              </p>
+            )}
           </div>
 
-          <Button className="px-3 py-2" type="button" onClick={onClose}>
-            Leave
-          </Button>
+          <div className="flex">
+            <Button className="px-3 py-2" type="button" onClick={onClose}>
+              Leave
+            </Button>
 
-          <Button className="px-3 py-2" type="submit" isPending={isPending}>
-            Edit Snippet
-          </Button>
-
-          {state.formError ? (
-            <p className="mt-1 text-sm text-muted">{state.formError}</p>
-          ) : null}
+            <Button className="px-3 py-2" type="submit">
+              Edit Snippet
+            </Button>
+          </div>
         </div>
       </form>
     </div>

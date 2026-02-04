@@ -1,7 +1,8 @@
 "use server";
 
 import z from "zod";
-import { apiFetch } from "../utilities/fetch/apiFetch";
+import { redirect } from "next/navigation";
+import { serverFetch } from "../utilities/fetch/serverFetch";
 
 const createSnippetSchema = z.object({
   code: z.string().min(6, "Snippet should contain at least 6 characters"),
@@ -40,7 +41,7 @@ export const createSnippet = async (
     language: payload.data.language,
   };
 
-  const res = await apiFetch(`/api/snippets`, {
+  const res = await serverFetch(`/api/snippets`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(dto),
@@ -51,6 +52,8 @@ export const createSnippet = async (
     const { message } = await res.json();
     return { formError: message };
   }
+
+  redirect("/home");
 
   return { ok: true };
 };

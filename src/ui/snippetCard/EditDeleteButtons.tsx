@@ -1,10 +1,10 @@
 "use client";
 
 import { useAuthStore } from "@/src/shared/store/authStore";
-import { apiFetch } from "@/src/utilities/fetch/apiFetch";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { EditModal } from "../modals/EditModal";
+import { clientFetch } from "@/src/utilities/fetch/clientFetch";
 
 export function EditDeleteButtons({
   userId,
@@ -27,7 +27,9 @@ export function EditDeleteButtons({
 
   const handleDelete = async (id: number) => {
     try {
-      const res = await apiFetch(`api/snippets/${id}`, { method: "DELETE" });
+      const res = await clientFetch(`/api/snippets/${id}`, {
+        method: "DELETE",
+      });
       console.log("delete status", res.status);
     } catch (e) {
       console.log("delete failed", e);

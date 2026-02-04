@@ -1,7 +1,7 @@
 import { Envelope, Snippet } from "@/src/types/types";
 import { EditDeleteButtons } from "./EditDeleteButtons";
 import { MarkButtons } from "./MarkButtons";
-import { apiFetch } from "@/src/utilities/fetch/apiFetch";
+import { serverFetch } from "@/src/utilities/fetch/serverFetch";
 
 export interface SnippetCardProps {
   snippet: Snippet;
@@ -11,7 +11,7 @@ export default async function SnippetCard({ snippet }: SnippetCardProps) {
   const { id, code, user, language, marks } = snippet;
   const initial = user?.username[0].toUpperCase();
 
-  const res = await apiFetch(`/api/snippets/languages`);
+  const res = await serverFetch(`/api/snippets/languages`);
 
   const data: Envelope<string[]> = await res.json().catch(() => null);
   const languages = await data.data;
