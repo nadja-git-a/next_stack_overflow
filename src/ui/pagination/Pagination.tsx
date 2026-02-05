@@ -1,13 +1,17 @@
 "use client";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import ArrowRight from "@/public/icons/arrowRight.svg";
+import ArrowLeft from "@/public/icons/arrowLeft.svg";
+import { RoundButton } from "../button/RoundButton";
 
-export function Pagination({ isLastPage }: { isLastPage: boolean }) {
+export function Pagination({ lastPage }: { lastPage: number }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
 
   const currentPage = Math.max(1, Number(searchParams.get("page")) || 1);
+  const isLastPage = lastPage === currentPage;
   const isFirstPage = currentPage === 1;
 
   const createPageURL = (pageNumber: number) => {
@@ -16,54 +20,40 @@ export function Pagination({ isLastPage }: { isLastPage: boolean }) {
     return `${pathname}?${params.toString()}`;
   };
 
+  const goFirst = () => {
+    router.push(createPageURL(1));
+  };
+
   const goPrev = () => {
-    if (!isFirstPage) {
-      router.push(createPageURL(currentPage - 1));
-    }
+    router.push(createPageURL(currentPage - 1));
   };
 
   const goNext = () => {
     router.push(createPageURL(currentPage + 1));
   };
 
+  const goLast = () => {
+    router.push(createPageURL(lastPage));
+  };
+
   return (
     <div className="mt-6 mb-6 flex items-center justify-center gap-4">
-      <button
+      <RoundButton onClick={goFirst} isDisabled={isFirstPage}>
+        1
+      </RoundButton>
+
+      <RoundButton
         onClick={goPrev}
-        disabled={isFirstPage}
+        isDisabled={isFirstPage}
         aria-label="Previous page"
-        className="
-      inline-flex h-10 w-10 items-center justify-center rounded-full
-      border border-border
-      text-primary
-      transition
-      hover:bg-primary-50
-      disabled:cursor-not-allowed
-      disabled:opacity-40
-    "
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth="1.5"
-          stroke="currentColor"
-          className="size-6"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"
-          />
-        </svg>
-      </button>
-
+        <ArrowLeft className="size-6" />
+      </RoundButton>
       <span className="text-sm font-medium text-fg">{currentPage}</span>
-
-      <button
+      <RoundButton
         onClick={goNext}
         aria-label="Next page"
-        disabled={isLastPage}
+        isDisabled={isLastPage}
         className="
       inline-flex h-10 w-10 items-center justify-center rounded-full
       border border-border
@@ -74,21 +64,11 @@ export function Pagination({ isLastPage }: { isLastPage: boolean }) {
       disabled:opacity-40
     "
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="size-6"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
-          />
-        </svg>
-      </button>
+        <ArrowRight className="size-6" />
+      </RoundButton>
+      <RoundButton onClick={goLast} isDisabled={isLastPage}>
+        {lastPage}
+      </RoundButton>
     </div>
   );
 }
