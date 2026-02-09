@@ -1,13 +1,13 @@
 "use client";
 
 import { MarkType } from "../types/types";
-import { apiFetch } from "../utilities/fetch/apiFetch";
+import { clientFetch } from "../utilities/fetch/clientFetch";
 
 export async function toggleMark(
   snippetId: number,
   mark: MarkType,
 ): Promise<MarkType> {
-  const res = await apiFetch(`/api/snippets/${snippetId}/mark`, {
+  const res = await clientFetch(`/api/snippets/${snippetId}/mark`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ mark }),

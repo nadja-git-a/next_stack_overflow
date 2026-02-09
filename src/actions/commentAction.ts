@@ -2,8 +2,8 @@
 
 import z from "zod";
 import type { CommentResponse, Envelope } from "../types/types";
-import { apiFetch } from "../utilities/fetch/apiFetch";
 import { revalidateTag } from "next/cache";
+import { serverFetch } from "../utilities/fetch/serverFetch";
 
 const commentSchema = z.object({
   comment: z.string().min(1, "Comment can't be empty"),
@@ -34,7 +34,7 @@ export const comment = async (
     snippetId: payload.data.id,
   };
 
-  const res = await apiFetch(`/api/comments`, {
+  const res = await serverFetch(`/api/comments`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(dto),

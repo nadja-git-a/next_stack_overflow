@@ -4,14 +4,14 @@ import { AuthState } from "@/src/actions/authActions";
 import { useAuthStore } from "@/src/shared/store/authStore";
 import { useRouter } from "next/navigation";
 import { useActionState, useEffect, useState } from "react";
+import { authenticate } from "../../actions/authActions";
 
-export function AuthForm({
-  action,
-}: {
-  action: (prevState: AuthState, formData: FormData) => Promise<AuthState>;
-}) {
+export function AuthForm() {
   const initialState: AuthState = {};
-  const [state, formAction, isPending] = useActionState(action, initialState);
+  const [state, formAction, isPending] = useActionState(
+    authenticate,
+    initialState,
+  );
 
   const login = useAuthStore((store) => store.login);
   const router = useRouter();

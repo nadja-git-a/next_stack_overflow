@@ -1,14 +1,20 @@
-import { Snippet } from "@/src/types/types";
+import { Envelope, Snippet } from "@/src/types/types";
 import { EditDeleteButtons } from "./EditDeleteButtons";
 import { MarkButtons } from "./MarkButtons";
+import { serverFetch } from "@/src/utilities/fetch/serverFetch";
 
 export interface SnippetCardProps {
   snippet: Snippet;
 }
 
-export default function SnippetCard({ snippet }: SnippetCardProps) {
+export default async function SnippetCard({ snippet }: SnippetCardProps) {
   const { id, code, user, language, marks } = snippet;
   const initial = user?.username[0].toUpperCase();
+
+  const res = await serverFetch(`/api/snippets/languages`);
+
+  const data: Envelope<string[]> = await res.json().catch(() => null);
+  const languages = await data.data;
 
   return (
     <>
@@ -30,7 +36,13 @@ export default function SnippetCard({ snippet }: SnippetCardProps) {
             <div className="text-xs text-fg-accent-soft">{language}</div>
           </div>
         </div>
-        <EditDeleteButtons user={user} id={id} />
+        <EditDeleteButtons
+          userId={user?.id ?? 0}
+          id={id}
+          code={code}
+          language={language}
+          languages={languages}
+        />
       </div>
 
       <div className="px-4 pb-3">

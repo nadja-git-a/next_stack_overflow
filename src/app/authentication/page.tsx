@@ -1,4 +1,3 @@
-import { authenticate } from "../../actions/authActions";
 import { AuthForm } from "../../ui/authForm/authForm";
 
 export default function Page() {
@@ -8,7 +7,7 @@ export default function Page() {
         <h1 className="mb-6 text-center text-3xl font-bold text-primary">
           Sign up
         </h1>
-        <AuthForm action={authenticate} />
+        <AuthForm />
       </div>
     </div>
   );
