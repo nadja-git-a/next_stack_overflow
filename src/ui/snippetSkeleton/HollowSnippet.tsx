@@ -1,6 +1,7 @@
 import ThumbUp from "@/public/icons/thumbUp.svg";
 import ThumbDown from "@/public/icons/thumbDown.svg";
 import Comment from "@/public/icons/comment.svg";
+import { IconButton } from "./IconButton";
 
 export function HollowSnippet() {
   return (
@@ -43,31 +44,17 @@ export function HollowSnippet() {
       </div>
 
       <div className="flex items-center gap-4 px-4 py-2">
-        <button
-          className="
-      flex items-center gap-1
-      text-primary transition hover:text-primary-600
-    "
-        >
+        <IconButton>
           <ThumbUp className={`size-6`} />
-        </button>
+        </IconButton>
 
-        <div
-          className="
-      flex items-center gap-1
-      text-primary transition hover:text-primary-600
-    "
-        >
+        <IconButton>
           <ThumbDown className={` size-6`} />
-        </div>
+        </IconButton>
 
-        <div
-          className="
-      flex items-center gap-1
-      text-primary transition hover:text-primary-600"
-        >
+        <IconButton>
           <Comment className={`size-6`} />
-        </div>
+        </IconButton>
       </div>
     </>
   );

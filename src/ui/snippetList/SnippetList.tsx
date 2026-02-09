@@ -3,7 +3,7 @@ import { Snippet } from "@/src/types/types";
 import { Pagination } from "../pagination/Pagination";
 import { HomeSnippet } from "../snippetCard/HomeSnippet";
 import { Suspense } from "react";
-import { SnippetListSkeleton } from "./SnippetListSkeleton";
+import { SnippetListSkeleton } from "../snippetSkeleton/SnippetListSkeleton";
 
 interface SnippetList {
   snippets: Snippet[];

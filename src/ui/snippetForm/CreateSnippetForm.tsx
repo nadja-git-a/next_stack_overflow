@@ -70,7 +70,7 @@ export function CreateSnippetForm({ languages }: { languages: string[] }) {
           />
         </div>
 
-        <Button className="px-3 py-2" type="submit" isPending={isPending}>
+        <Button className="px-3 py-2" type="submit" isDisabled={isPending}>
           Create Snippet
         </Button>
 

@@ -3,7 +3,7 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import ArrowRight from "@/public/icons/arrowRight.svg";
 import ArrowLeft from "@/public/icons/arrowLeft.svg";
-import { RoundButton } from "../button/RoundButton";
+import { Button } from "../button/Button";
 
 export function Pagination({ lastPage }: { lastPage: number }) {
   const pathname = usePathname();
@@ -38,37 +38,30 @@ export function Pagination({ lastPage }: { lastPage: number }) {
 
   return (
     <div className="mt-6 mb-6 flex items-center justify-center gap-4">
-      <RoundButton onClick={goFirst} isDisabled={isFirstPage}>
+      <Button onClick={goFirst} isDisabled={isFirstPage} variant="round">
         1
-      </RoundButton>
+      </Button>
 
-      <RoundButton
+      <Button
         onClick={goPrev}
         isDisabled={isFirstPage}
+        variant="round"
         aria-label="Previous page"
       >
         <ArrowLeft className="size-6" />
-      </RoundButton>
+      </Button>
       <span className="text-sm font-medium text-fg">{currentPage}</span>
-      <RoundButton
+      <Button
         onClick={goNext}
         aria-label="Next page"
         isDisabled={isLastPage}
-        className="
-      inline-flex h-10 w-10 items-center justify-center rounded-full
-      border border-border
-      text-primary
-      transition
-      hover:bg-primary-50
-      disabled:cursor-not-allowed
-      disabled:opacity-40
-    "
+        variant="round"
       >
         <ArrowRight className="size-6" />
-      </RoundButton>
-      <RoundButton onClick={goLast} isDisabled={isLastPage}>
+      </Button>
+      <Button onClick={goLast} isDisabled={isLastPage} variant="round">
         {lastPage}
-      </RoundButton>
+      </Button>
     </div>
   );
 }

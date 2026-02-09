@@ -35,11 +35,11 @@ export function EditModal({
   const { register, handleSubmit, formState } = form;
 
   if (!open) {
-    return;
+    return null;
   }
 
   const onSubmit = async (data: EditModal) => {
-    const res = await clientFetch(`/api/snippets/${snippetId}`, {
+    await clientFetch(`/api/snippets/${snippetId}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -50,7 +50,6 @@ export function EditModal({
       }),
     });
 
-    console.log("fetch res", res.body);
     onClose();
     router.refresh();
   };

@@ -24,7 +24,7 @@ export function CommentForm({ id }: { id: string }) {
       "
       />
 
-      <Button isPending={isPending} className="px-4 py-2">
+      <Button isDisabled={isPending} className="px-4 py-2">
         {isPending ? "Sending..." : "Send"}
       </Button>
 

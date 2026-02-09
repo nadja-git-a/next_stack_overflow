@@ -1,4 +1,4 @@
-import { HollowSnippet } from "./HollowSnippet";
+import { HollowSnippet } from "../snippetSkeleton/HollowSnippet";
 
 export function SnippetListSkeleton() {
   return (
