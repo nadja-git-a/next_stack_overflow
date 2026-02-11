@@ -6,6 +6,7 @@ import { limit } from "../../../variables/variables";
 import { serverFetch } from "@/src/utilities/fetch/serverFetch";
 import { cookies } from "next/headers";
 import { decodeJwtPayload } from "@/src/utilities/token/decodeJwtPayload";
+import { redirect } from "next/navigation";
 
 export default async function Page({
   searchParams,
@@ -16,6 +17,8 @@ export default async function Page({
   const payload = token ? decodeJwtPayload(token) : null;
 
   const id = payload?.user.id;
+
+  if (id === undefined) redirect("/login");
 
   const sp = await searchParams;
   const page = Math.max(1, Number(sp.page ?? 1));

@@ -1,4 +1,5 @@
 import { UiUser } from "@/src/types/types";
+import { clientFetch } from "@/src/utilities/fetch/clientFetch";
 import { create } from "zustand";
 
 interface AuthState {
@@ -12,8 +13,9 @@ interface AuthState {
 export const useAuthStore = create<AuthState>((set) => ({
   isAuth: false,
   user: null,
+
   hydrate: async () => {
-    const res = await fetch("/api/me", {
+    const res = await clientFetch("/api/auth", {
       credentials: "include",
       cache: "no-store",
     });
@@ -21,12 +23,13 @@ export const useAuthStore = create<AuthState>((set) => ({
     const user = data?.user ?? null;
     set({ isAuth: !!user, user });
   },
+
   login: (user) => {
     set({ isAuth: Boolean(user), user });
   },
 
   logout: async () => {
-    await fetch("/api/logout", {
+    await clientFetch("/api/logout", {
       method: "POST",
       cache: "no-store",
     });

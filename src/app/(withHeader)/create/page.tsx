@@ -1,8 +1,17 @@
 import { Loader } from "@/src/ui/loader/Loader";
 import { CreateSnippet } from "@/src/ui/snippetForm/CreateSnippet";
+import { decodeJwtPayload } from "@/src/utilities/token/decodeJwtPayload";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
-export default function Page() {
+export default async function Page() {
+  const token = (await cookies()).get("token")?.value;
+  const payload = token ? decodeJwtPayload(token) : null;
+
+  const id = payload?.user.id;
+
+  if (id === undefined) redirect("/login");
   return (
     <>
       <Suspense fallback={<Loader />}>

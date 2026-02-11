@@ -70,6 +70,10 @@ export function CreateSnippetForm({ languages }: { languages: string[] }) {
           />
         </div>
 
+        {state.fieldErrors?.code ? (
+          <p className="mt-1 text-sm text-muted">{state.fieldErrors.code}</p>
+        ) : null}
+
         <Button className="px-3 py-2" type="submit" isDisabled={isPending}>
           Create Snippet
         </Button>

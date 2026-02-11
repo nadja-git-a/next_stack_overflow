@@ -1,7 +1,16 @@
+import { serverFetch } from "@/src/utilities/fetch/serverFetch";
 import { LogInOutButton } from "./LogInOutButton";
 import { Menu } from "./Menu";
 
-export function Header() {
+export async function Header() {
+  const res = await serverFetch("/api/me", {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  });
+
+  const data = await res.json().catch(() => null);
+  const username = data.data.username;
+
   return (
     <div className="flex-grow">
       <header className="bg-bg text-blue-600 shadow-sm">
@@ -10,7 +19,7 @@ export function Header() {
           <h1 className="flex-grow text-lg font-semibold text-fg-accent">
             CODELANG
           </h1>
-          <LogInOutButton />
+          <LogInOutButton username={username} />
         </div>
       </header>
     </div>
