@@ -6,6 +6,7 @@ interface AuthState {
   isAuth: boolean;
   user: UiUser | null;
   hydrate: () => void;
+  setUser: (user: UiUser | null) => void;
   login: (user: UiUser | null) => void;
   logout: () => Promise<void>;
 }
@@ -21,7 +22,11 @@ export const useAuthStore = create<AuthState>((set) => ({
     });
     const data = await res.json().catch(() => null);
     const user = data?.user ?? null;
-    set({ isAuth: !!user, user });
+    set({ isAuth: !!user });
+  },
+
+  setUser: (user) => {
+    set({ user });
   },
 
   login: (user) => {

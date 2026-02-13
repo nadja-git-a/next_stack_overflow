@@ -4,11 +4,18 @@ import { useAuthStore } from "@/src/shared/store/authStore";
 import Link from "next/link";
 import { Button } from "../button/Button";
 import { useRouter } from "next/navigation";
+import { UiUser } from "@/src/types/types";
+import { useEffect } from "react";
 
-export function LogInOutButton({ username }: { username: string | undefined }) {
+export function LogInOutButton({ user }: { user: UiUser | undefined }) {
+  const setUser = useAuthStore((store) => store.setUser);
   const isAuth = useAuthStore((store) => store.isAuth);
   const logout = useAuthStore((store) => store.logout);
   const router = useRouter();
+
+  useEffect(() => {
+    if (user) setUser(user);
+  }, [user, setUser]);
 
   const onLogout = async () => {
     await logout();
@@ -18,7 +25,7 @@ export function LogInOutButton({ username }: { username: string | undefined }) {
     <>
       {isAuth ? (
         <div className="flex items-center gap-3">
-          <span className="text-sm text-muted">{username ?? ""}</span>
+          <span className="text-sm text-muted">{user?.username ?? ""}</span>
 
           <Button onClick={onLogout} className=" px-3 py-1">
             Log out

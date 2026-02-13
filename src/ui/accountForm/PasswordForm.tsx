@@ -4,6 +4,8 @@ import { useActionState, useEffect } from "react";
 import { Button } from "../button/Button";
 import { changePassword, PasswordState } from "@/src/actions/passwordAction";
 import { toast } from "sonner";
+import { Input } from "../input/Input";
+import { HelperText } from "../helperText/HelperText";
 
 export function PasswordForm() {
   const initialPassword: PasswordState = {};
@@ -29,68 +31,29 @@ export function PasswordForm() {
           Change your password
         </legend>
 
-        <div className="space-y-1">
-          <input
-            type="password"
-            name="oldPassword"
-            placeholder="Current password"
-            className="
-          w-full rounded-lg px-3 py-2 text-sm
-          bg-bg text-fg placeholder:text-muted
-          border border-border
-          transition
-          focus:outline-none focus:ring-1 focus:ring-primary
-        "
-          />
-          {state.fieldErrors?.oldPassword && (
-            <p className="text-xs text-red-500">
-              {state.fieldErrors.oldPassword}
-            </p>
-          )}
-        </div>
+        <Input
+          type="password"
+          name="oldPassword"
+          placeholder="Enter current password"
+          helperText={state.fieldErrors?.oldPassword}
+        />
 
-        <div className="space-y-1">
-          <input
-            type="password"
-            name="newPassword"
-            placeholder="New password"
-            className="
-          w-full rounded-lg px-3 py-2 text-sm
-          bg-bg text-fg placeholder:text-muted
-          border border-border
-          transition
-          focus:outline-none focus:ring-1 focus:ring-primary
-        "
-          />
-          {state.fieldErrors?.newPassword && (
-            <p className="text-xs text-red-500">
-              {state.fieldErrors.newPassword}
-            </p>
-          )}
-        </div>
+        <Input
+          type="password"
+          name="newPassword"
+          placeholder="Enter new password"
+          helperText={state.fieldErrors?.newPassword}
+        />
 
-        <div className="space-y-1">
-          <input
-            type="password"
-            name="confirm"
-            placeholder="Confirm new password"
-            className="
-          w-full rounded-lg px-3 py-2 text-sm
-          bg-bg text-fg placeholder:text-muted
-          border border-border
-          transition
-          focus:outline-none focus:ring-1 focus:ring-primary
-        "
-          />
-          {state.fieldErrors?.confirm && (
-            <p className="text-xs text-red-500">{state.fieldErrors.confirm}</p>
-          )}
-        </div>
+        <Input
+          type="password"
+          name="confirm"
+          placeholder="Confirm new password"
+          helperText={state.fieldErrors?.confirm}
+        />
 
         <div className="mt-1 min-h-[1.25rem]">
-          {state?.formError && (
-            <p className="text-xs text-red-500">{state.formError}</p>
-          )}
+          <HelperText error={state?.formError ?? ""} />
         </div>
       </fieldset>
 

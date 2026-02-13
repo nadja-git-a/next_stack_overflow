@@ -7,18 +7,26 @@ import { usernameSchema, UsernameType } from "./usernameSchema/usernameSchema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { clientFetch } from "@/src/utilities/fetch/clientFetch";
+import { Input } from "../input/Input";
+import { useAuthStore } from "@/src/shared/store/authStore";
+import { useEffect } from "react";
 
 export function UsernameForm() {
   const router = useRouter();
+  const username = useAuthStore((store) => store.user?.username);
 
   const form = useForm<UsernameType>({
     resolver: zodResolver(usernameSchema),
     defaultValues: {
-      username: "",
+      username: username,
     },
   });
 
-  const { register, handleSubmit, formState } = form;
+  const { register, handleSubmit, formState, reset } = form;
+
+  useEffect(() => {
+    reset({ username });
+  }, [username, reset]);
 
   const onSubmit = async (data: UsernameType) => {
     const res = await clientFetch(`/api/me`, {
@@ -45,23 +53,12 @@ export function UsernameForm() {
           Change your username
         </legend>
 
-        <input
+        <Input
+          type="text"
           {...register("username")}
           placeholder="New username"
-          className="
-        w-full rounded-lg px-3 py-2 text-sm
-        bg-bg text-fg placeholder:text-muted
-        border border-border
-        transition
-        focus:outline-none focus:ring-1 focus:ring-primary
-      "
+          helperText={formState.errors.username?.message}
         />
-
-        {formState.errors.username && (
-          <p className="mt-1 text-sm text-red-500">
-            {formState.errors.username.message}
-          </p>
-        )}
       </fieldset>
 
       <div className="flex justify-end">

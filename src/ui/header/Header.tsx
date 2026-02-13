@@ -9,7 +9,7 @@ export async function Header() {
   });
 
   const data = await res.json().catch(() => null);
-  const username = data.data.username;
+  const user = data.data;
 
   return (
     <div className="flex-grow">
@@ -19,7 +19,7 @@ export async function Header() {
           <h1 className="flex-grow text-lg font-semibold text-fg-accent">
             CODELANG
           </h1>
-          <LogInOutButton username={username} />
+          <LogInOutButton user={user} />
         </div>
       </header>
     </div>

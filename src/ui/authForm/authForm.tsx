@@ -1,10 +1,12 @@
 "use client";
 
 import { AuthState } from "@/src/actions/authActions";
-import { useAuthStore } from "@/src/shared/store/authStore";
 import { useRouter } from "next/navigation";
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useEffect } from "react";
 import { authenticate } from "../../actions/authActions";
+import { Input } from "../input/Input";
+import { Button } from "../button/Button";
+import { HelperText } from "../helperText/HelperText";
 
 export function AuthForm() {
   const initialState: AuthState = {};
@@ -13,18 +15,12 @@ export function AuthForm() {
     initialState,
   );
 
-  const login = useAuthStore((store) => store.login);
   const router = useRouter();
-
-  const [username, setUsername] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [confirm, setConfirm] = useState<string>("");
 
   useEffect(() => {
     if (!state?.ok || !state.user) return;
-    login(state.user);
-    router.replace("/home");
-  }, [state?.ok, state?.user, login, router]);
+    router.replace("/login");
+  }, [state?.ok, state?.user, router]);
 
   return (
     <form
@@ -46,112 +42,38 @@ export function AuthForm() {
     gap-6
   "
     >
-      {state?.formError && (
-        <p className="text-sm text-red-500 text-center">{state.formError}</p>
-      )}
+      <HelperText error={state?.formError ?? ""} />
 
       <div className="w-full">
-        <label className="block text-sm font-medium text-muted">Username</label>
-        <input
+        <Input
           type="text"
           name="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          className="
-        mt-1
-        w-full
-        bg-transparent
-        py-2
-        text-fg
-        outline-none
-        border-b
-        border-border
-        focus:border-primary
-        transition
-      "
+          label="Username"
+          helperText={state?.fieldErrors?.username}
         />
-        <div className="mt-1 min-h-[1.25rem]">
-          {state?.fieldErrors?.username && (
-            <p className="text-xs text-red-500">{state.fieldErrors.username}</p>
-          )}
-        </div>
       </div>
 
       <div className="w-full">
-        <label className="block text-sm font-medium text-muted">Password</label>
-        <input
+        <Input
           type="password"
           name="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="
-        mt-1
-        w-full
-        bg-transparent
-        py-2
-        text-fg
-        outline-none
-        border-b
-        border-border
-        focus:border-primary
-        transition
-      "
+          label="Password"
+          helperText={state?.fieldErrors?.password}
         />
-        <div className="mt-1 min-h-[1.25rem]">
-          {state?.fieldErrors?.password && (
-            <p className="text-xs text-red-500">{state.fieldErrors.password}</p>
-          )}
-        </div>
       </div>
 
       <div className="w-full">
-        <label className="block text-sm font-medium text-muted">
-          Confirm password
-        </label>
-        <input
+        <Input
           type="password"
           name="confirm"
-          value={confirm}
-          onChange={(e) => setConfirm(e.target.value)}
-          className="
-        mt-1
-        w-full
-        bg-transparent
-        py-2
-        text-fg
-        outline-none
-        border-b
-        border-border
-        focus:border-primary
-        transition
-      "
+          label="Confirm password"
+          helperText={state?.fieldErrors?.confirm}
         />
-        <div className="mt-1 min-h-[1.25rem]">
-          {state?.fieldErrors?.confirm && (
-            <p className="text-xs text-red-500">{state.fieldErrors.confirm}</p>
-          )}
-        </div>
       </div>
 
-      <button
-        type="submit"
-        disabled={isPending}
-        className="
-      mt-4
-      rounded-lg
-      bg-primary
-      px-6
-      py-2.5
-      font-semibold
-      text-white
-      transition
-      hover:bg-primary-600
-      disabled:cursor-not-allowed
-      disabled:opacity-50
-    "
-      >
+      <Button className="size-6 py-4 px-3" type="submit" isDisabled={isPending}>
         SIGN UP
-      </button>
+      </Button>
     </form>
   );
 }
