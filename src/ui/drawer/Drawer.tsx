@@ -42,6 +42,10 @@ export function Drawer({ open, onClose }: DrawerProps) {
           <NavLink href="/create" onClick={onClose}>
             Create Snippet
           </NavLink>
+
+          <NavLink href="/users" onClick={onClose}>
+            Users
+          </NavLink>
         </nav>
       </aside>
     </>

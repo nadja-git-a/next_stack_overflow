@@ -14,7 +14,7 @@ export function Account({ user }: { user: UserStatistics }) {
           <p className="mt-1 text-sm text-muted">role: {user.role}</p>
         </div>
 
-        <AccountButtons />
+        <AccountButtons id={user.id} />
 
         <div className="my-6 h-px bg-border" />
 

@@ -5,9 +5,12 @@ import { Button } from "../button/Button";
 import { useRouter } from "next/navigation";
 import { clientFetch } from "@/src/utilities/fetch/clientFetch";
 
-export function AccountButtons() {
+export function AccountButtons({ id }: { id: number }) {
   const logout = useAuthStore((store) => store.logout);
+  const myId = useAuthStore((store) => store.user?.id);
   const router = useRouter();
+
+  if (myId !== id) return null;
 
   const handleLogout = async () => {
     await logout();
