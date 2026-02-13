@@ -1,5 +1,6 @@
 "use client";
 
+import { useAuthStore } from "@/src/shared/store/authStore";
 import { NavLink } from "../links/NavLink";
 
 type DrawerProps = {
@@ -8,6 +9,7 @@ type DrawerProps = {
 };
 
 export function Drawer({ open, onClose }: DrawerProps) {
+  const isAuth = useAuthStore((store) => store.isAuth);
   return (
     <>
       {open && (
@@ -31,17 +33,21 @@ export function Drawer({ open, onClose }: DrawerProps) {
             Home
           </NavLink>
 
-          <NavLink href="/myAccount" onClick={onClose}>
-            My Account
-          </NavLink>
+          {isAuth ? (
+            <>
+              <NavLink href="/myAccount" onClick={onClose}>
+                My Account
+              </NavLink>
 
-          <NavLink href="/mySnippets" onClick={onClose}>
-            My Snippets
-          </NavLink>
+              <NavLink href="/mySnippets" onClick={onClose}>
+                My Snippets
+              </NavLink>
 
-          <NavLink href="/create" onClick={onClose}>
-            Create Snippet
-          </NavLink>
+              <NavLink href="/create" onClick={onClose}>
+                Create Snippet
+              </NavLink>
+            </>
+          ) : null}
 
           <NavLink href="/users" onClick={onClose}>
             Users
