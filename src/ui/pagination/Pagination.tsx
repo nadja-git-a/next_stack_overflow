@@ -37,7 +37,7 @@ export function Pagination({ lastPage }: { lastPage: number }) {
   };
 
   return (
-    <div className="mt-6 mb-6 flex items-center justify-center gap-4">
+    <div className=" mb-6 flex items-center justify-center gap-4">
       <Button onClick={goFirst} isDisabled={isFirstPage} variant="round">
         1
       </Button>

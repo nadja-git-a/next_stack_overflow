@@ -19,7 +19,7 @@ export default async function Page({
   const snippets = data.data.data;
   const safeSnippets = JSON.parse(JSON.stringify(snippets));
 
-  const totalPages = data.data.meta?.totalPages || 0;
+  const totalPages = data.data.meta?.totalPages || 1;
 
   return (
     <div>
